@@ -3,11 +3,13 @@ import requests
 from random import randint
 from bs4 import BeautifulSoup
 
+from proxymanager.abstract.proxy import Proxy
+
 
 class ProxyServices:
 
     def __init__(self):
-        self._proxy_array = []
+        self._proxy_list = []
         self._used_limit = False
         self._proxy_limit_error = 5
         self._proxy_limit_used = 30
@@ -47,29 +49,21 @@ class ProxyServices:
         :return: None
 
         """
-        self._proxy_array.append({
-            "ip": ip,
-            "port": port,
-            "protocol": protocol,
-            "country": country,
-            "anonymity": anonymity,
-            "used": 0,
-            "errors": 0
-        })
+        self._proxy_list.append(Proxy(ip, port, protocol, country, anonymity))
 
-    def get_proxies_array(self):
+    def get_proxies_list(self):
         """
         Get proxies array
-        :return: Array<Proxy>
+        :return: List<Proxy>
         """
-        return self._proxy_array
+        return self._proxy_list
 
     def get_random(self):
         """
         Get random proxy
         :return: Proxy object
         """
-        return None if len(self._proxy_array) == 0 else self._proxy_array[randint(0, len(self._proxy_array) - 1)]
+        return None if len(self._proxy_list) == 0 else self._proxy_list[randint(0, len(self._proxy_list) - 1)]
 
     def get_next(self):
         """
@@ -77,15 +71,15 @@ class ProxyServices:
         Ordering asc by used.
         :return:
         """
-        return sorted(self._proxy_array, key=lambda k: k['used'])[0]
+        return sorted(self._proxy_list, key=lambda k: k.used)[0]
 
     def erase_proxy_array(self):
         """
         Erase all index from proxy array
         :return: Empty proxy array Array[]
         """
-        del self._proxy_array[:]
-        return self.get_proxies_array()
+        del self._proxy_list[:]
+        return self.get_proxies_list()
 
     def mark_proxy_error(self, proxy: str, port: str) -> bool:
         """
@@ -94,10 +88,10 @@ class ProxyServices:
         :param port: Proxy port
         :return: Status
         """
-        for x in self._proxy_array:
+        for x in self._proxy_list:
             self.clear_bad_proxy(x)
-            if x["ip"] is proxy and x["port"] is port:
-                x["errors"] += 1
+            if x.ip is proxy and x.port is port:
+                x.errors += 1
                 return True
         return False
 
@@ -108,11 +102,11 @@ class ProxyServices:
         :param port: Proxy port
         :return: Status
         """
-        for x in self._proxy_array:
+        for x in self._proxy_list:
             if self.is_active_used_limit:
                 self.clear_bad_proxy(x)
-            if x["ip"] is proxy and x["port"] is port:
-                x["used"] += 1
+            if x.ip is proxy and x.port is port:
+                x.used += 1
                 return True
         return False
 
@@ -121,34 +115,34 @@ class ProxyServices:
         Check if proxy is bad and remove if is
         :param proxy: Proxy object
         """
-        if proxy["errors"] > self.error_limit:
-            self._proxy_array.remove(proxy)
+        if proxy.errors > self.error_limit:
+            self._proxy_list.remove(proxy)
 
     def clear_used_proxy(self, proxy):
         """
         Check if proxy is used and remove if is
         :param proxy: Proxy object
         """
-        if proxy["used"] > self.used_limit:
-            self._proxy_array.remove(proxy)
+        if proxy.used > self.used_limit:
+            self._proxy_list.remove(proxy)
 
     def clear_all_bad_proxies(self):
         """
         Remove all bad proxy from list
-        :return: Array<Proxy>
+        :return: List<Proxy>
         """
-        for x in self._proxy_array:
+        for x in self._proxy_list:
             self.clear_bad_proxy(x)
-        return self.get_proxies_array()
+        return self.get_proxies_list()
 
     def clear_all_used_proxies(self):
         """
         Remove all used proxy from list
-        :return: Array<Proxy>
+        :return: List<Proxy>
         """
-        for x in self._proxy_array:
+        for x in self._proxy_list:
             self.clear_used_proxy(x)
-        return self.get_proxies_array()
+        return self.get_proxies_list()
 
     def _get_url(self, proxy_url):
         r = requests.get(proxy_url, headers={
@@ -158,9 +152,9 @@ class ProxyServices:
         return BeautifulSoup(r.text, "lxml")
 
     def __str__(self):
-        return "\n".join(":".join((x["ip"], x["port"])) + " "
-                         + "|".join((x["protocol"], x["country"], x["anonimity"], x["used"]))
-                         for x in self._proxy_array)
+        return "\n".join(":".join((x.ip, x.port)) + " "
+                         + "|".join((x.protocol, x.country, x.anonymity, str(x.used), str(x.errors)))
+                         for x in self._proxy_list)
 
     def __len__(self):
-        return len(self._proxy_array)
+        return len(self._proxy_list)

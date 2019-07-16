@@ -1,5 +1,4 @@
-
-from .proxy_services import ProxyServices
+from proxymanager.abstract.proxy_services import ProxyServices
 
 
 class FreeProxy(ProxyServices):
@@ -37,5 +36,5 @@ class FreeProxy(ProxyServices):
                     if protocol == "https" or protocol == "https:":
                         self.add_new_proxy(ip, port, protocol, anonymity, country)
 
-        return self.get_proxies_array()
+        return self.get_proxies_list()
 

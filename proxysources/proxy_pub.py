@@ -1,4 +1,4 @@
-from .proxy_services import ProxyServices
+from proxymanager.abstract.proxy_services import ProxyServices
 
 
 class ProxyPub(ProxyServices):
@@ -21,4 +21,4 @@ class ProxyPub(ProxyServices):
                 single_proxy = x.split(":")
                 self.add_new_proxy(single_proxy[0], single_proxy[1], "https", "", "")
 
-        return self.get_proxies_array()
+        return self.get_proxies_list()

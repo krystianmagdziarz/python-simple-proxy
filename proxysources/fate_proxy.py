@@ -1,4 +1,4 @@
-from .proxy_services import ProxyServices
+from proxymanager.abstract.proxy_services import ProxyServices
 
 import json
 
@@ -40,5 +40,5 @@ class FateProxy(ProxyServices):
                     json_loads["anonymity"]
                 )
 
-        return self.get_proxies_array()
+        return self.get_proxies_list()
 
