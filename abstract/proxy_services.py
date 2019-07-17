@@ -38,7 +38,7 @@ class ProxyServices:
     def is_active_used_limit(self, state):
         self._used_limit = state
 
-    def add_new_proxy(self, ip: str, port: str, protocol="http", country="US", anonymity="low"):
+    def add_new_proxy(self, **kwargs):
         """
         Add new proxy to array
         :param ip: Proxy ip
@@ -49,7 +49,21 @@ class ProxyServices:
         :return: None
 
         """
-        self._proxy_list.append(Proxy(ip, port, protocol, country, anonymity))
+
+        if(len(kwargs)) == 2:
+            new_proxy = Proxy(kwargs["ip"], kwargs["port"])
+        elif (len(kwargs)) == 5:
+            new_proxy = Proxy(kwargs["ip"], kwargs["port"], kwargs["protocol"], kwargs["country"], kwargs["anonymity"])
+        elif (len(kwargs)) == 1:
+            if isinstance(kwargs["proxy"], Proxy):
+                new_proxy = kwargs["proxy"]
+            else:
+                raise NotImplementedError
+        else:
+            raise NotImplementedError
+
+        if new_proxy not in self._proxy_list:
+            self._proxy_list.append(new_proxy)
 
     def get_proxies_list(self):
         """

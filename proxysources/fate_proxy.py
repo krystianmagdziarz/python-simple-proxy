@@ -25,19 +25,19 @@ class FateProxy(ProxyServices):
             if only_htts:
                 if json_loads["type"] is "https":
                     self.add_new_proxy(
-                        json_loads["host"],
-                        json_loads["port"],
-                        json_loads["type"],
-                        json_loads["country"],
-                        json_loads["anonymity"]
+                        ip=json_loads["host"],
+                        port=json_loads["port"],
+                        protocol=json_loads["type"],
+                        country=json_loads["country"],
+                        anonymity=json_loads["anonymity"]
                     )
             else:
                 self.add_new_proxy(
-                    json_loads["host"],
-                    json_loads["port"],
-                    json_loads["type"],
-                    json_loads["country"],
-                    json_loads["anonymity"]
+                    ip=json_loads["host"],
+                    port=json_loads["port"],
+                    protocol=json_loads["type"],
+                    country=json_loads["country"],
+                    anonymity=json_loads["anonymity"]
                 )
 
         return self.get_proxies_list()

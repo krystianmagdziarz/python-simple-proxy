@@ -31,10 +31,22 @@ class FreeProxy(ProxyServices):
                 country = td[4].text
 
                 if not only_htts:
-                    self.add_new_proxy(ip, port, protocol, anonymity, country)
+                    self.add_new_proxy(
+                        ip=ip,
+                        port=port,
+                        protocol=protocol,
+                        anonymity=anonymity,
+                        country=country
+                    )
                 else:
                     if protocol == "https" or protocol == "https:":
-                        self.add_new_proxy(ip, port, protocol, anonymity, country)
+                        self.add_new_proxy(
+                            ip=ip,
+                            port=port,
+                            protocol=protocol,
+                            anonymity=anonymity,
+                            country=country
+                        )
 
         return self.get_proxies_list()
 

@@ -19,6 +19,11 @@ class ProxyPub(ProxyServices):
         for x in proxy_lines.splitlines():
             if x is not None:
                 single_proxy = x.split(":")
-                self.add_new_proxy(single_proxy[0], single_proxy[1], "https", "", "")
+                self.add_new_proxy(
+                    ip=single_proxy[0],
+                    port=single_proxy[1],
+                    protocol="https",
+                    country="",
+                    anonymity="")
 
         return self.get_proxies_list()

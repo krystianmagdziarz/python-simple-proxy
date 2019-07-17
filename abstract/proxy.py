@@ -66,4 +66,11 @@ class Proxy:
         self.__errors = errors if errors > 0 else 0
 
     def __str__(self):
+        """Overrides the default implementation"""
         return ":".join((self.ip, self.port))
+
+    def __eq__(self, other):
+        """Overrides the default implementation"""
+        if isinstance(other, Proxy):
+            return self.ip == other.ip and self.port == other.port
+        return NotImplemented
