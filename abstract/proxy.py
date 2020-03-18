@@ -67,7 +67,7 @@ class Proxy:
 
     def __str__(self):
         """Overrides the default implementation"""
-        return ":".join((self.ip, self.port))
+        return ":".join((self.ip, str(self.port)))
 
     def __eq__(self, other):
         """Overrides the default implementation"""

@@ -1,4 +1,4 @@
-from proxymanager.abstract.proxy_services import ProxyServices
+from abstract.services import ProxyServices
 
 import json
 
@@ -6,11 +6,11 @@ import json
 class FateProxy(ProxyServices):
     FATE_PROXY_URL = "https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list"
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Get new proxy from source
         """
-        super().__init__()
+        super().__init__(*args, **kwargs)
         self.get_new()
 
     def get_new(self, only_htts=False):

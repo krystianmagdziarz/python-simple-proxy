@@ -1,4 +1,4 @@
-from proxymanager.abstract.proxy_services import ProxyServices
+from abstract.services import ProxyServices
 
 
 class ProxyPub(ProxyServices):

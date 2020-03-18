@@ -8,7 +8,7 @@ from abstract.proxy import Proxy
 
 class ProxyServices:
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         self._proxy_list = []
         self._used_limit = False
         self._proxy_limit_error = 5
