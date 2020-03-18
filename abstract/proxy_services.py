@@ -3,7 +3,7 @@ import requests
 from random import randint
 from bs4 import BeautifulSoup
 
-from proxymanager.abstract.proxy import Proxy
+from abstract.proxy import Proxy
 
 
 class ProxyServices:
