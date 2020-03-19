@@ -18,7 +18,7 @@ Enjoy :+1:
 git clone https://github.com/OceanFireSoftware/python-simple-proxy.git
 
 # Change directory
-cd pythonsimpleproxy
+cd python-simple-proxy
 
 # Create virtual environment
 virtualenv venv --python=python3
